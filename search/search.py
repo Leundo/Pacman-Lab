@@ -97,6 +97,8 @@ def depthFirstSearch(problem):
 
     while not stack.isEmpty():
         state, actions = stack.pop()
+        if state in close:
+            continue
         close.append(state)
         if problem.isGoalState(state):
             return actions
@@ -121,7 +123,6 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-
     # close set
     close = []
 
@@ -129,8 +130,12 @@ def breadthFirstSearch(problem):
     queue = util.Queue()
     queue.push((problem.getStartState(), []))
 
+    a = 0
     while not queue.isEmpty():
+        
         state, actions = queue.pop()
+        if state in close:
+            continue
         close.append(state)
         if problem.isGoalState(state):
             return actions
@@ -164,6 +169,8 @@ def uniformCostSearch(problem):
 
     while not priorityQueue.isEmpty():
         state, actions = priorityQueue.pop()
+        if state in close:
+            continue
         close.append(state)
         if problem.isGoalState(state):
             return actions
@@ -204,6 +211,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 
     while not priorityQueue.isEmpty():
         state, actions = priorityQueue.pop()
+        if state in close:
+            continue
         close.append(state)
         if problem.isGoalState(state):
             return actions

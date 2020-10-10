@@ -277,8 +277,10 @@ class CornersProblem(search.SearchProblem):
         """
         Stores the walls, pacman's starting position and corners.
         """
+        # elf.walls: <class 'game.Grid'>
         self.walls = startingGameState.getWalls()
         self.startingPosition = startingGameState.getPacmanPosition()
+
         top, right = self.walls.height-2, self.walls.width-2
         self.corners = ((1,1), (1,top), (right, 1), (right, top))
         for corner in self.corners:
@@ -288,6 +290,9 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
+        # top and right save as member variables
+        self.top = top
+        self.right = right
 
     def getStartState(self):
         """
@@ -295,14 +300,20 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # a state should include position and info of corners
+        cornersInfo = (False, False, False, False)
+        state = (self.startingPosition, cornersInfo)
+        return state
+        # util.raiseNotDefined()
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        return state[1][0] and state[1][1] and state[1][2] and state[1][3]
+        # util.raiseNotDefined()
 
     def getSuccessors(self, state):
         """
@@ -325,6 +336,36 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
+
+
+            # x and y are current position
+            x,y = state[0]
+            cornersInfo = state[1]
+
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            hitsWall = self.walls[nextx][nexty]
+            newCornersInfo = (False, False, False, False)
+            nextState = (nextx, nexty)
+            
+            if not hitsWall:
+                # Judge whether a pacman arrives where there is food
+                if nextState in self.corners:
+                    if nextState == (self.right, 1):
+                        newCornersInfo = (True, cornersInfo[1], cornersInfo[2], cornersInfo[3])
+                    elif nextState == (self.right, self.top):
+                        newCornersInfo = (cornersInfo[0], True, cornersInfo[2], cornersInfo[3])
+                    elif nextState == (1, self.top):
+                        newCornersInfo = (cornersInfo[0], cornersInfo[1], True, cornersInfo[3])
+                    elif nextState == (1,1):
+                        newCornersInfo = (cornersInfo[0], cornersInfo[1], cornersInfo[2], True)
+                    successor = ((nextState, newCornersInfo), action, 1)
+                # there is not food
+                else:
+                    successor = ((nextState, cornersInfo), action, 1)
+                successors.append(successor)
+
+
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
