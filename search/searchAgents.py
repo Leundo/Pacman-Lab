@@ -586,8 +586,7 @@ def foodHeuristic(state, problem):
             if distAB > maxDist[2]:
                 maxDist = (foodA, foodB, distAB)
 
-    return maxDist[2] + min(util.manhattanDistance(position, foodA), util.manhattanDistance(position, foodB))
-
+    return maxDist[2] + min(util.manhattanDistance(position, maxDist[0]), util.manhattanDistance(position, maxDist[1]))
 
 
 class ClosestDotSearchAgent(SearchAgent):
