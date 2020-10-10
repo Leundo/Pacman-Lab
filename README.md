@@ -2,8 +2,9 @@
 ## Introduction
 所有改动均只在 `searchAgents.py` 和 `search.py`  
 
-**Version:** `0.1.7`  
-进度: 7/8  
+**Version:** `0.1.9`  
+进度: 6/8  
+Lab 2.6 和 Lab 2.7 未通过评分，有重大缺陷。  
 
 ## Idea
 个人的浅薄想法。  

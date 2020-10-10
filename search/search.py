@@ -223,7 +223,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             direction = item[1]
             # judge whether pacman have already reached
             if not adjState in close:
-                priorityQueue.push((adjState, actions + [direction]), problem.getCostOfActions(actions + [direction]) + heuristic(adjState, problem))
+                newState = (adjState, actions + [direction])
+                priorityQueue.push(newState, problem.getCostOfActions(actions + [direction]) + heuristic(adjState, problem))
 
     # not found when priority-queue is empty
     try:
