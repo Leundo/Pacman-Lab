@@ -105,7 +105,7 @@ def depthFirstSearch(problem):
         for item in successor:
             adjState = item[0]
             direction = item[1]
-        # judge whether pacman have already reached
+            # judge whether pacman have already reached
             if not adjState in close:
                 stack.push((adjState, actions + [direction]))
 
@@ -139,7 +139,7 @@ def breadthFirstSearch(problem):
         for item in successor:
             adjState = item[0]
             direction = item[1]
-        # judge whether pacman have already reached
+            # judge whether pacman have already reached
             if not adjState in close:
                 queue.push((adjState, actions + [direction]))
 
@@ -154,7 +154,36 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    # close set
+    close = []
+
+    # ucs with priority-queue
+    priorityQueue = util.PriorityQueue()
+    priorityQueue.push((problem.getStartState(), []) ,0)
+
+    while not priorityQueue.isEmpty():
+        state, actions = priorityQueue.pop()
+        close.append(state)
+        if problem.isGoalState(state):
+            return actions
+
+        successor = problem.getSuccessors(state)
+        for item in successor:
+            adjState = item[0]
+            direction = item[1]
+            # judge whether pacman have already reached
+            if not adjState in close:
+                priorityQueue.push((adjState, actions + [direction]), problem.getCostOfActions(actions + [direction]))
+
+
+    # not found when priority-queue is empty
+    try:
+        raise Exception('Not Found!')
+    except Exception as error:
+        print(error)
+
+    # util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
     """
