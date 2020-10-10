@@ -409,17 +409,17 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
+    "version 1 BEGIN"
+
     # corners[3][1] is top
     # corners[3][1] is right
-
+    cost = 0
     longSide = max(corners[3][1], corners[3][0])
     shortSide = min(corners[3][1], corners[3][0])
-
 
     # clockwise
     # corners[0] is (1,1); corners[1] is (1,top); corners[3] is (right,top); corners[2] is (right,1)
     aCorners = (corners[0], corners[1], corners[3], corners[2])
-    print(aCorners)
 
     currentPosition = state[0]
 
@@ -432,8 +432,8 @@ def cornersHeuristic(state, problem):
     # if x is in cornersWithFood, there is food at corners[x]
     cornersWithFood = []
 
-    for i in range(0,3):
-        if currentCornersState[i]:
+    for i in range(0,4):
+        if not currentCornersState[i]:
             cornersWithFood.append(i)
 
     # there is food at ALL corners
@@ -441,7 +441,7 @@ def cornersHeuristic(state, problem):
         minDist = 999999
         for i in cornersWithFood:
             minDist = min(minDist, util.manhattanDistance(currentPosition, aCorners[i]))
-        return 2*shortSide + longSide + minDist - 3
+        cost = 2*shortSide + longSide + minDist - 3
 
     # there is food at 3 of the corners
     elif len(cornersWithFood) == 3:
@@ -454,20 +454,24 @@ def cornersHeuristic(state, problem):
             c1 = cornersWithFood[1]
             c2 = (cornersWithFood[1] + 2) % 4
         minDist = min(util.manhattanDistance(currentPosition, aCorners[c1]), util.manhattanDistance(currentPosition, aCorners[c2]))
-        return minDist + longSide + shortSide - 2
+        cost = minDist + longSide + shortSide - 2
 
     # there is food at 2 of the corners
     elif len(cornersWithFood) == 2:
         minDist = 999999
         for i in cornersWithFood:
             minDist = min(minDist, util.manhattanDistance(currentPosition, aCorners[i]))
-        return util.manhattanDistance(aCorners[cornersWithFood[0]], aCorners[cornersWithFood[1]]) + minDist - 1
+
+        cost = util.manhattanDistance(aCorners[cornersWithFood[0]], aCorners[cornersWithFood[1]]) + minDist
+
 
     # there is food at 1 of the corners
     elif len(cornersWithFood) == 1:
-        return util.manhattanDistance(aCorners[cornersWithFood[0]], currentPosition)
+        cost = util.manhattanDistance(aCorners[cornersWithFood[0]], currentPosition)
 
-    return 0 # Default to trivial solution
+    return cost # Default to trivial solution
+    "version 1 END"
+
 
 
 class AStarCornersAgent(SearchAgent):
