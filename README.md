@@ -24,7 +24,7 @@ state: ((x, y), (haveEatenFood1, haveEatenFood2, haveEatenFood3, haveEatenFood4)
 所以现在只需要在函数 `cornersHeuristic` 里求最短距离的下界就好了。  
 
 
-## Lab 2.7
+### Lab 2.7
 > 用尽可能少的步数吃掉所有的豆子。完成searchAgents.py文件中的FoodSearchProblem豆子搜索问题。
 
 这题出现了新的 pron 类型 `FoodSearchProblem`。第一步是先确定 state 的结构。
