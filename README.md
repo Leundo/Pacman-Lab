@@ -1,9 +1,8 @@
 # 吃豆人实验
-## introduction
+## Introduction
 所有改动均只在 `searchAgents.py` 和 `search.py`  
 
-## version
-`0.1.5`
+**Version: **`0.1.5`
 
 ## Idea
 个人的浅薄想法。  
