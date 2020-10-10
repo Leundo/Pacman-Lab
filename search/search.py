@@ -87,12 +87,69 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    # close set
+    close = []
+
+    # dfs by stack
+    stack = util.Stack()
+    stack.push((problem.getStartState(), []))
+
+    while not stack.isEmpty():
+        state, actions = stack.pop()
+        close.append(state)
+        if problem.isGoalState(state):
+            return actions
+
+        successor = problem.getSuccessors(state)
+        for item in successor:
+            adjState = item[0]
+            direction = item[1]
+        # judge whether pacman have already reached
+            if not adjState in close:
+                stack.push((adjState, actions + [direction]))
+
+    # not found when stack is empty
+    try:
+        raise Exception('Not Found!')
+    except Exception as error:
+        print(error)
+
+    
+    # util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    # close set
+    close = []
+
+    # bfs by queue
+    queue = util.Queue()
+    queue.push((problem.getStartState(), []))
+
+    while not queue.isEmpty():
+        state, actions = queue.pop()
+        close.append(state)
+        if problem.isGoalState(state):
+            return actions
+
+        successor = problem.getSuccessors(state)
+        for item in successor:
+            adjState = item[0]
+            direction = item[1]
+        # judge whether pacman have already reached
+            if not adjState in close:
+                queue.push((adjState, actions + [direction]))
+
+    # not found when queue is empty
+    try:
+        raise Exception('Not Found!')
+    except Exception as error:
+        print(error)
+
+    # util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
