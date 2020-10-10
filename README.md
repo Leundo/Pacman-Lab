@@ -2,8 +2,8 @@
 ## Introduction
 所有改动均只在 `searchAgents.py` 和 `search.py`  
 
-**Version:** `0.1.6`  
-进度: 6/8  
+**Version:** `0.1.7`  
+进度: 7/8  
 
 ## Idea
 个人的浅薄想法。  

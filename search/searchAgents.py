@@ -559,9 +559,29 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
+    foodPositions = foodGrid.asList()
+
+    # there is no food at the maze
+    if len(foodPositions) == 0:
+        return 0
+    # there is just one food at the maze
+    elif len(foodPositions) == 1:
+        return util.manhattanDistance(position, foodPositions[0])
+
+    # maxDist[2] is maximum distance between any two points
+    # maxDist[0] and maxDist[1] are the two points respectively
+    maxDist = ((0, 0), (0, 0), 0)
+    for foodA in foodPositions:
+        for foodB in foodPositions:
+            if foodA == foodB:
+                continue
+            distAB = util.manhattanDistance(foodA, foodB)
+            if distAB > maxDist[2]:
+                maxDist = (foodA, foodB, distAB)
+
+    return maxDist[2] + min(util.manhattanDistance(position, foodA), util.manhattanDistance(position, foodB))
 
 
-    return 0
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
