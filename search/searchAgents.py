@@ -353,17 +353,18 @@ class CornersProblem(search.SearchProblem):
             if not hitsWall:
                 # there is food where the pacman arrives
                 if nextState in self.corners:
-
+                    # clockwise, for lab 2.6
+                    # (1, 1)
                     if nextState == self.corners[0]:
                         newCorners = (True, corners[1], corners[2], corners[3])
-
+                    # (1, top)
                     elif nextState == self.corners[1]:
                         newCorners = (corners[0], True, corners[2], corners[3])
-
-                    elif nextState == self.corners[2]:
-                        newCorners = (corners[0], corners[1], True, corners[3])
-
+                    # (right, top)
                     elif nextState == self.corners[3]:
+                        newCorners = (corners[0], corners[1], True, corners[3])
+                    # (right, 1)
+                    elif nextState == self.corners[2]:
                         newCorners = (corners[0], corners[1], corners[2], True)
 
                     successor = ((nextState, newCorners), action, 1)
@@ -408,6 +409,62 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
+    # corners[3][1] is top
+    # corners[3][1] is right
+
+    longSide = max(corners[3][1] - 1, corners[3][0] - 1)
+    shortSide = min(corners[3][1] - 1, corners[3][0] - 1)
+
+    # clockwise
+    # corners[0] is (1,1); corners[1] is (1,top); corners[3] is (right,top); corners[2] is (right,1)
+    aCorners = (corners[0], corners[1], corners[3], corners[2])
+
+    currentPosition = state[0]
+
+    # the type of currentCornersState is (bool, bool, bool, bool)
+    # currentCornersState indicates whether there is food at the corresponding position
+    # for example, if currentCornersState[1] == true, there is food at corners[1]-(1,top)
+    currentCornersState = state[1]
+
+    # the type of the elements of the cornersWithFood is int
+    # if x is in cornersWithFood, there is food at corners[x]
+    cornersWithFood = []
+
+    for i in range(0,3):
+        if currentCornersState[i]:
+            cornersWithFood.append(i)
+
+    # there is food at ALL corners
+    if len(cornersWithFood) == 4:
+        minDist = 999999
+        for i in cornersWithFood:
+            minDist = min(minDist, util.manhattanDistance(currentPosition, aCorners[i]))
+        return 2*shortSide + longSide + minDist
+
+    # there is food at 3 of the corners
+    elif len(cornersWithFood) == 3:
+        
+        # aCorners[c1] and aCorners[c2] are on the diagonal
+        if (cornersWithFood[0] + 2) % 4 in cornersWithFood:
+            c1 = cornersWithFood[0]
+            c2 = (cornersWithFood[0] + 2) % 4
+        else:
+            c1 = cornersWithFood[1]
+            c2 = (cornersWithFood[1] + 2) % 4
+        minDist = min(util.manhattanDistance(currentPosition, aCorners[c1]), util.manhattanDistance(currentPosition, aCorners[c2]))
+        return minDist + longSide + shortSide
+
+    # there is food at 2 of the corners
+    elif len(cornersWithFood) == 2:
+        minDist = 999999
+        for i in cornersWithFood:
+            minDist = min(minDist, util.manhattanDistance(currentPosition, aCorners[i]))
+        return util.manhattanDistance(aCorners[cornersWithFood[0]], aCorners[cornersWithFood[1]]) + minDist
+
+    # there is food at 1 of the corners
+    elif len(cornersWithFood) == 1:
+        return util.manhattanDistance(aCorners[cornersWithFood[0]], currentPosition)
+
     return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):

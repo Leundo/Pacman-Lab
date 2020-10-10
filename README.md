@@ -2,7 +2,8 @@
 ## Introduction
 所有改动均只在 `searchAgents.py` 和 `search.py`  
 
-**Version:** `0.1.5`
+**Version:** `0.1.6`  
+进度: 6/8  
 
 ## Idea
 个人的浅薄想法。  
@@ -34,7 +35,7 @@ state: ((x, y), (haveEatenFood1, haveEatenFood2, haveEatenFood3, haveEatenFood4)
     ((1, 3), <game.Grid object at 0x7fb104dd8ed0>)
     ((3, 3), <game.Grid object at 0x7fb104dd89d0>)
 *推荐阅读 game.Grid 类*  
-game.Grid 中有方法 `.asList`，`print(state[1]).asList()` 得到  
+game.Grid 中有方法 `.asList`，`print(state[1].asList())` 得到  
 
     [(1, 1), (1, 3)]
     [(1, 1)]
@@ -46,7 +47,7 @@ game.Grid 中有方法 `.asList`，`print(state[1]).asList()` 得到
 state: ((x, y), [食物的坐标列表])  
 当[食物的坐标列表]为空时，为终止状态。  
 
-这题我们要完成函数 `foodHeuristic`，作为 A* 的 h(x)。所以现在只需要在函数 `cornersHeuristic` 里求最短距离的下界就好了。    
+这题我们要完成函数 `foodHeuristic`，作为 A\* 的 h(x)。所以现在只需要在函数 `cornersHeuristic` 里求最短距离的下界就好了。    
 
 ### Lab 2.8
 > 定义一个优先吃最近的豆子函数是提高搜索速度的一个好的办法。补充完成searchAgents.py文件中的AnyFoodSearchProblem目标测试函数，并完成searchAgents.py文件中的ClosestDotSearchAgent部分，在此Agent当中缺少一个关键的函数：找到最近豆子的函数。  
