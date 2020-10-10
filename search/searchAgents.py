@@ -340,32 +340,39 @@ class CornersProblem(search.SearchProblem):
 
             # x and y are current position
             x,y = state[0]
-            cornersInfo = state[1]
+            corners = state[1]
 
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
+
             hitsWall = self.walls[nextx][nexty]
-            newCornersInfo = (False, False, False, False)
+            newCorners = (False, False, False, False)
             nextState = (nextx, nexty)
             
+            # this direction is valid
             if not hitsWall:
-                # Judge whether a pacman arrives where there is food
+                # there is food where the pacman arrives
                 if nextState in self.corners:
-                    if nextState == (self.right, 1):
-                        newCornersInfo = (True, cornersInfo[1], cornersInfo[2], cornersInfo[3])
-                    elif nextState == (self.right, self.top):
-                        newCornersInfo = (cornersInfo[0], True, cornersInfo[2], cornersInfo[3])
-                    elif nextState == (1, self.top):
-                        newCornersInfo = (cornersInfo[0], cornersInfo[1], True, cornersInfo[3])
-                    elif nextState == (1,1):
-                        newCornersInfo = (cornersInfo[0], cornersInfo[1], cornersInfo[2], True)
-                    successor = ((nextState, newCornersInfo), action, 1)
-                # there is not food
+
+                    if nextState == self.corners[0]:
+                        newCorners = (True, corners[1], corners[2], corners[3])
+
+                    elif nextState == self.corners[1]:
+                        newCorners = (corners[0], True, corners[2], corners[3])
+
+                    elif nextState == self.corners[2]:
+                        newCorners = (corners[0], corners[1], True, corners[3])
+
+                    elif nextState == self.corners[3]:
+                        newCorners = (corners[0], corners[1], corners[2], True)
+
+                    successor = ((nextState, newCorners), action, 1)
+                # there is no food
                 else:
-                    successor = ((nextState, cornersInfo), action, 1)
+                    successor = ((nextState, corners), action, 1)
                 successors.append(successor)
 
-
+            "*** YOUR CODE END ***"
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
@@ -495,6 +502,8 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
+
+
     return 0
 
 class ClosestDotSearchAgent(SearchAgent):
